@@ -1,0 +1,11 @@
+name = "ReadOnlyArrays"
+uuid = "f61f53d0-1cb4-11e9-1e9d-2b23d62979d5"
+authors = ["Bogumił Kamiński <bkamins@sgh.waw.pl>"]
+version = "0.1.0"
+
+[extras]
+SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["SparseArrays", "Test"]
