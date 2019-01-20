@@ -8,8 +8,6 @@ os:
   - linux
   - osx
 
-coveralls: true
-
 notifications:
   email: false
 
@@ -19,3 +17,6 @@ before_script:
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   - julia --check-bounds=yes -e 'using Pkg; Pkg.test(coverage=true)'
+
+after_success:
+  - julia -e 'using Pkg; cd(Pkg.dir("ReadOnlyArrays")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
