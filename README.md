@@ -6,7 +6,13 @@ ReadOnlyArrays.jl
 
 A wrapper `ReadOnlyArray` type around `AbstractArray` that is read-only
 
-**Installation**: at the Julia REPL run:
+### Installation
+
+At the Julia REPL run:
 `using Pkg; Pkg.add("https://github.com/bkamins/ReadOnlyArrays.jl")`.
 
-**Documentation**: at the Julia REPL execute: `using ReadOnlyArrays` and then type `?ReadOnlyArray` and press enter to get help.
+### Documentation
+
+At the Julia REPL execute:
+`using ReadOnlyArrays`,
+then type `?ReadOnlyArray` and press enter to get help.
