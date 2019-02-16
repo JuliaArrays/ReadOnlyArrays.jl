@@ -1,5 +1,5 @@
 name = "ReadOnlyArrays"
-uuid = "f61f53d0-1cb4-11e9-1e9d-2b23d62979d5"
+uuid = "988b38a3-91fc-5605-94a2-ee2116b3bd83"
 authors = ["Bogumił Kamiński <bkamins@sgh.waw.pl>"]
 version = "0.1.0"
 
