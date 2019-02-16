@@ -1,5 +1,7 @@
 using ReadOnlyArrays, Test, SparseArrays
 
+@testset "ReadOnlyArrays" begin
+
 x = rand(5, 10)
 vx = view(x, 2:4, 3:8)
 s = sparse(x)
@@ -44,4 +46,6 @@ for a in [x, vx, s, vs]
             @test stride(r, 1) == stride(a, 1)
         end
     end
+end
+
 end
