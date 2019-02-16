@@ -1,7 +1,7 @@
 name = "ReadOnlyArrays"
 uuid = "988b38a3-91fc-5605-94a2-ee2116b3bd83"
 authors = ["Bogumił Kamiński <bkamins@sgh.waw.pl>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [extras]
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
