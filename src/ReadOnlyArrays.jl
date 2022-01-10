@@ -1,6 +1,6 @@
 module ReadOnlyArrays
 
-export ReadOnlyArray
+export ReadOnlyArray, ReadOnlyVector, ReadOnlyMatrix
 
 """
     ReadOnlyArray(a)
@@ -38,6 +38,12 @@ struct ReadOnlyArray{T,N,P} <: AbstractArray{T,N}
     parent::P
     ReadOnlyArray(parent::AbstractArray{T,N}) where{T,N} =
         new{T, N, typeof(parent)}(parent)
+    ReadOnlyArray{T}(parent::AbstractArray{T,N}) where{T,N} =
+        new{T, N, typeof(parent)}(parent)
+    ReadOnlyArray{T, N}(parent::AbstractArray{T,N}) where {T, N} =
+        new{T, N, typeof(parent)}(parent)
+    ReadOnlyArray{T, N, P}(parent::P) where {T, N, P<:AbstractArray{T, N}} =
+        new{T, N, typeof(parent)}(parent)
 end
 
 Base.IteratorSize(::Type{<:ReadOnlyArray{T,N,P}}) where {T,N,P} =
@@ -61,5 +67,17 @@ Base.unsafe_convert(p::Type{Ptr{T}}, roa::ReadOnlyArray) where {T} =
     Base.unsafe_convert(p, roa.parent)
 Base.stride(roa::ReadOnlyArray, i::Int) = stride(roa.parent, i)
 Base.parent(roa::ReadOnlyArray) = roa.parent
+
+const ReadOnlyVector{T, P} = ReadOnlyArray{T,1,P}
+ReadOnlyVector(parent::AbstractVector) = ReadOnlyArray(parent)
+
+# Define aliases:
+const ReadOnlyVector{T, P} = ReadOnlyArray{T,1,P}
+const ReadOnlyMatrix{T,P} = ReadOnlyArray{T,2,P}
+
+# Allow construction through the alias:
+ReadOnlyVector(parent::AbstractVector) = ReadOnlyArray(parent)
+ReadOnlyMatrix(parent::AbstractMatrix) = ReadOnlyArray(parent)
+
 
 end # module

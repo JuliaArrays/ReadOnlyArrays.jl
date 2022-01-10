@@ -10,6 +10,11 @@ using ReadOnlyArrays, Test, SparseArrays
         @testset "tests for $(typeof(a))" begin
             r = ReadOnlyArray(a)
 
+            # Check the ability to construct it with type parameters.
+            @test ReadOnlyArray{Float64}(a) == r
+            @test ReadOnlyArray{Float64, 2}(a) == r
+            @test ReadOnlyArray{Float64, 2, typeof(a)}(a) == r
+
             @test Base.IteratorSize(typeof(r)) == Base.IteratorSize(typeof(a))
             @test Base.IteratorEltype(typeof(r)) == Base.IteratorEltype(typeof(a))
             @test eltype(typeof(r)) == eltype(r) == eltype(a)
@@ -45,5 +50,14 @@ using ReadOnlyArrays, Test, SparseArrays
                 @test stride(r, 1) == stride(a, 1)
             end
         end
+    end
+
+    @testset "Aliases" begin
+        @test ReadOnlyVector([4, 5]) isa ReadOnlyArray{Int, 1, Vector{Int}}
+        @test ReadOnlyVector{Int}([4, 5]) isa ReadOnlyArray{Int, 1, Vector{Int}}
+        @test ReadOnlyVector{Int, Vector{Int}}([4, 5]) isa ReadOnlyVector{Int, Vector{Int}}
+        @test ReadOnlyMatrix([1 2 ; 3 4]) isa ReadOnlyArray{Int, 2, Matrix{Int}}
+        @test ReadOnlyMatrix{Int}([1 2 ; 3 4]) isa ReadOnlyArray{Int, 2, Matrix{Int}}
+        @test ReadOnlyMatrix{Int, Matrix{Int}}([1 2 ; 3 4]) isa ReadOnlyArray{Int, 2, Matrix{Int}}
     end
 end
