@@ -49,6 +49,10 @@ using ReadOnlyArrays, Test, SparseArrays
                       Base.unsafe_convert(Ptr{Float64}, a)
                 @test stride(r, 1) == stride(a, 1)
             end
+
+            # Test the implicit conversion from mutable array to read-only.
+            f()::ReadOnlyArray{Float64, 2} = a
+            @test f() == a
         end
     end
 

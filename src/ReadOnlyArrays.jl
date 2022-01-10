@@ -68,8 +68,7 @@ Base.unsafe_convert(p::Type{Ptr{T}}, roa::ReadOnlyArray) where {T} =
 Base.stride(roa::ReadOnlyArray, i::Int) = stride(roa.parent, i)
 Base.parent(roa::ReadOnlyArray) = roa.parent
 
-const ReadOnlyVector{T, P} = ReadOnlyArray{T,1,P}
-ReadOnlyVector(parent::AbstractVector) = ReadOnlyArray(parent)
+Base.convert(::Type{ReadOnlyArray{T, N}}, mutable_arr::AbstractArray{T, N}) where {T, N} = ReadOnlyArray(mutable_arr)
 
 # Define aliases:
 const ReadOnlyVector{T, P} = ReadOnlyArray{T,1,P}
