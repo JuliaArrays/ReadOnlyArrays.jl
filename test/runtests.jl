@@ -12,8 +12,8 @@ using ReadOnlyArrays, Test, SparseArrays
 
             # Check the ability to construct it with type parameters.
             @test ReadOnlyArray{Float64}(a) == r
-            @test ReadOnlyArray{Float64, 2}(a) == r
-            @test ReadOnlyArray{Float64, 2, typeof(a)}(a) == r
+            @test ReadOnlyArray{Float64,2}(a) == r
+            @test ReadOnlyArray{Float64,2,typeof(a)}(a) == r
 
             @test Base.IteratorSize(typeof(r)) == Base.IteratorSize(typeof(a))
             @test Base.IteratorEltype(typeof(r)) == Base.IteratorEltype(typeof(a))
@@ -51,7 +51,7 @@ using ReadOnlyArrays, Test, SparseArrays
             end
 
             # Test the implicit conversion from mutable array to read-only.
-            f()::ReadOnlyArray{Float64, 2} = a
+            f()::ReadOnlyArray{Float64,2} = a
             @test f() == a
         end
     end
@@ -59,9 +59,9 @@ using ReadOnlyArrays, Test, SparseArrays
     @testset "Aliases" begin
         @test ReadOnlyVector([4, 5]) isa ReadOnlyArray{Int, 1, Vector{Int}}
         @test ReadOnlyVector{Int}([4, 5]) isa ReadOnlyArray{Int, 1, Vector{Int}}
-        @test ReadOnlyVector{Int, Vector{Int}}([4, 5]) isa ReadOnlyVector{Int, Vector{Int}}
+        @test ReadOnlyVector{Int,Vector{Int}}([4, 5]) isa ReadOnlyVector{Int, Vector{Int}}
         @test ReadOnlyMatrix([1 2 ; 3 4]) isa ReadOnlyArray{Int, 2, Matrix{Int}}
         @test ReadOnlyMatrix{Int}([1 2 ; 3 4]) isa ReadOnlyArray{Int, 2, Matrix{Int}}
-        @test ReadOnlyMatrix{Int, Matrix{Int}}([1 2 ; 3 4]) isa ReadOnlyArray{Int, 2, Matrix{Int}}
+        @test ReadOnlyMatrix{Int,Matrix{Int}}([1 2 ; 3 4]) isa ReadOnlyArray{Int, 2, Matrix{Int}}
     end
 end
