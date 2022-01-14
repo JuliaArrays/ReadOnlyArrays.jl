@@ -52,7 +52,9 @@ using ReadOnlyArrays, Test, SparseArrays
 
             # Test the implicit conversion from mutable array to read-only.
             f()::ReadOnlyArray{Float64,2} = a
-            @test f() == a
+            fa = f()
+            @test fa isa ReadOnlyArray{Float64,2}
+            @test fa == a
         end
     end
 
