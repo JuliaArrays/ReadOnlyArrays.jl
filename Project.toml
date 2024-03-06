@@ -1,14 +1,17 @@
 name = "ReadOnlyArrays"
 uuid = "988b38a3-91fc-5605-94a2-ee2116b3bd83"
-authors = ["Bogumił Kamiński <bkamins@sgh.waw.pl>", "William Manning <wmanning@cra.com>"]
+authors = [
+    "Bogumił Kamiński <bkamins@sgh.waw.pl>",
+    "William Manning <wmanning@cra.com>",
+    "Mark Baum <markmbaum@protonmail.com>"
+]
 version = "0.2.0"
 
 [compat]
-julia = "^1.0.5"
+julia = "^1.0"
 
 [extras]
-SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["SparseArrays", "Test"]
+test = ["Test"]
