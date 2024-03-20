@@ -51,6 +51,12 @@ end
         fa = f()
         @test fa isa ReadOnlyArray{Float64,2}
         @test fa == x
+
+        a = ReadOnly([1, 2])
+        @test typeof(similar(a)) === Vector{Int64}
+
+        @test copy(a) == [1, 2]
+        @test typeof(copy(a)) === Vector{Int64}
     end
 end
 

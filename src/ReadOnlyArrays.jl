@@ -31,7 +31,7 @@ CanonicalIndexError: setindex! not defined for ReadOnlyArray{Int64,2,Array{Int64
 """
 struct ReadOnlyArray{T,N,A} <: AbstractArray{T,N}
     parent::A
-    function ReadOnlyArray(parent::AbstractArray{T,N}) where {T,N}
+        function ReadOnlyArray(parent::AbstractArray{T,N}) where {T,N}
         new{T,N,typeof(parent)}(parent)
     end
 end
@@ -69,7 +69,7 @@ Base.iterate(x::ReadOnlyArray, args...) = iterate(x.parent, args...)
 
 Base.length(x::ReadOnlyArray) = length(x.parent)
 
-Base.similar(x::ReadOnlyArray) = similar(x.parent) |> ReadOnlyArray
+Base.similar(x::ReadOnlyArray) = similar(x.parent)
 
 Base.axes(x::ReadOnlyArray) = axes(x.parent)
 
