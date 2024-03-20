@@ -29,10 +29,22 @@ CanonicalIndexError: setindex! not defined for ReadOnlyArray{Int64,2,Array{Int64
 [...]
 ```
 """
-struct ReadOnlyArray{T,N,A} <: AbstractArray{T,N}
+struct ReadOnlyArray{T,N,A,LE,SI,AX,I} <: AbstractArray{T,N}
     parent::A
+    _length::LE
+    _size::SI
+    _axes::AX
+    _firstindex::I
+    _lastindex::I
+
     function ReadOnlyArray(parent::AbstractArray{T,N}) where {T,N}
-        new{T,N,typeof(parent)}(parent)
+        _l = length(parent)
+        _s = size(parent)
+        _a = axes(parent)
+        _f = firstindex(parent)
+        _l = lastindex(parent)
+        _I = typejoin(typeof(_f), typeof(_l))
+        new{T,N,typeof.((parent,_l,_s,_a))...,_I}(parent, _l, _s, _a, _f, _l)
     end
 end
 
@@ -57,7 +69,16 @@ ReadOnlyMatrix(parent::AbstractMatrix) = ReadOnlyArray(parent)
 # interface, excluding setindex!() and similar()
 # https://docs.julialang.org/en/v1/manual/interfaces/#man-interface-parentay
 
-Base.size(x::ReadOnlyArray, args...) = size(x.parent, args...)
+Base.size(x::ReadOnlyArray) = x._size
+Base.length(x::ReadOnlyArray) = x._length
+Base.axes(x::ReadOnlyArray) = x._axes
+Base.firstindex(x::ReadOnlyArray) = x._firstindex
+Base.lastindex(x::ReadOnlyArray) = x._lastindex
+
+# Special caching for `Array`
+Base.size(a::ReadOnlyArray{<:Any,<:Any,<:Array}, d::Integer) = x._size[d]
+
+Base.size(x::ReadOnlyArray, arg, args...) = size(x.parent, arg, args...)
 
 @propagate_inbounds function Base.getindex(x::ReadOnlyArray, args...)
     getindex(x.parent, args...)
@@ -67,11 +88,7 @@ Base.IndexStyle(::Type{<:ReadOnlyArray{T,N,P}}) where {T,N,P} = IndexStyle(P)
 
 Base.iterate(x::ReadOnlyArray, args...) = iterate(x.parent, args...)
 
-Base.length(x::ReadOnlyArray) = length(x.parent)
-
 Base.similar(x::ReadOnlyArray) = similar(x.parent)
-
-Base.axes(x::ReadOnlyArray) = axes(x.parent)
 
 function Base.IteratorSize(::Type{<:ReadOnlyArray{T,N,P}}) where {T,N,P}
     Base.IteratorSize(P)
@@ -84,10 +101,6 @@ end
 function Base.eltype(::Type{<:ReadOnlyArray{T,N,P}}) where {T,N,P}
     eltype(P)
 end
-
-Base.firstindex(x::ReadOnlyArray) = firstindex(x.parent)
-
-Base.lastindex(x::ReadOnlyArray) = lastindex(x.parent)
 
 Base.strides(x::ReadOnlyArray) = strides(x.parent)
 
