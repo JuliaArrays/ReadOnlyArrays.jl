@@ -69,7 +69,7 @@ Base.iterate(x::ReadOnlyArray, args...) = iterate(x.parent, args...)
 
 Base.length(x::ReadOnlyArray) = length(x.parent)
 
-Base.similar(x::ReadOnlyArray) = similar(x.parent) |> ReadOnlyArray
+Base.similar(x::ReadOnlyArray) = similar(x.parent)
 
 Base.axes(x::ReadOnlyArray) = axes(x.parent)
 
